@@ -1,0 +1,15 @@
+# Used by both models/abb2.py (ABodyBuilder2) and models/nanobodybuilder2.py
+# (NanoBodyBuilder2) - same package, same architecture, different weights.
+#
+# ImmuneBuilder's own package eagerly imports its refinement/numbering
+# dependencies (pdbfixer, openmm, anarci) even though this repo never calls
+# refine() or number_sequences() (we only need the raw structure module -
+# see models/abb2.py's docstring on why no OpenMM refinement is applied
+# here). Install the real packages via conda if you want ImmuneBuilder's
+# own CLI/refinement to work too:
+#   conda install -c conda-forge -c bioconda pdbfixer openmm anarci
+# Otherwise, a no-op stub package for each (a module exposing MagicMock
+# objects under the expected names) is enough to satisfy the import chain
+# for structure prediction alone.
+-r common.txt
+ImmuneBuilder

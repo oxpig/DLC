@@ -1,0 +1,7 @@
+# NOTE: the "esm" package needed here (EvolutionaryScale's SDK, for ESM-C
+# embeddings) and the "esm" package needed by requirements/esmfold.txt
+# (Meta's fair-esm, for ESMFold) both install under the same `esm` import
+# name and conflict - use separate environments for Ibex and ESMFold.
+-r common.txt
+openfold
+esm

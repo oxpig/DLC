@@ -1,0 +1,37 @@
+# QuickBind's dependency stack is old and fragile - pin exactly, don't let
+# pip's resolver pull in anything newer (it will happily upgrade torch out
+# from under you via an unpinned pytorch-lightning/deepspeed dependency).
+#
+# 1. Clone the model repo and the pinned openfold fork it needs (NOT the
+#    public `openfold` pip package used by every other model here):
+#      git clone git@github.com:aqlaboratory/QuickBind.git
+#      git clone git@github.com:aqlaboratory/openfold.git quickbind_openfold
+#      cd quickbind_openfold && git checkout efcf80f50e5534cdf9b5ede56ef1cbbd1471775e
+# 2. This repo's own CUDA extension (attn_core_inplace_cuda) generally
+#    won't compile on a modern toolchain against torch 1.12.1+cu113 -
+#    either get a real CUDA 11.3 + gcc<=10 toolchain working, or drop
+#    ext_modules/cmdclass from quickbind_openfold's setup.py and stub the
+#    extension with a plain PyTorch softmax forward/backward (functionally
+#    equivalent, just not fused/in-place).
+# 3. deepspeed and dllogger are training-time-only dependencies that get
+#    imported eagerly regardless (openfold/utils/__init__.py imports them
+#    at import time) - a no-op stub module for each (satisfying the ~2
+#    functions actually called: deepspeed.utils.is_initialized(),
+#    deepspeed.checkpointing.is_configured(), dllogger.init/log/flush) is
+#    enough; no need for the real packages.
+# 4. On a modern kernel with stack-hardening, torch 1.12.1's own
+#    libtorch_cpu.so may fail to load ("cannot enable executable stack") -
+#    this needs a PT_GNU_STACK ELF program-header patch on that .so file if
+#    so; not something pip can fix.
+torch==1.12.1+cu113
+torchvision==0.13.1+cu113
+pytorch-lightning==1.9
+torchmetrics<0.12
+lightning-utilities<0.9
+fsspec<2023.9
+rdkit==2022.03.2
+torch-geometric==2.1.0
+numpy<2
+setuptools<81
+requests
+pyyaml

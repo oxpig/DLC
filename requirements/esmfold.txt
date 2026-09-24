@@ -1,0 +1,6 @@
+# NOTE: this "esm" package (Meta's fair-esm, for ESMFold) and the "esm"
+# package needed by requirements/ibex.txt (EvolutionaryScale's SDK, for
+# ESM-C) both install under the same `esm` import name and conflict - use
+# separate environments for ESMFold and Ibex.
+-r common.txt
+fair-esm

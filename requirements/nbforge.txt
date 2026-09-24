@@ -1,0 +1,3 @@
+# NbForge (Sormanni Lab) isn't on PyPI - clone it and install in editable
+# mode: git clone https://gitlab.doc.ic.ac.uk/sormanni-lab/nbforge && pip install -e nbforge
+-r common.txt

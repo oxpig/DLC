@@ -1,0 +1,4 @@
+# Genie3 (aqlaboratory/genie3) isn't on PyPI - clone it and install in
+# editable mode: git clone https://github.com/aqlaboratory/genie3 && pip install -e genie3
+# then fetch the public v1 checkpoint via genie3's own scripts/setup/download.sh
+-r common.txt
